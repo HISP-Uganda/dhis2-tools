@@ -23,7 +23,8 @@ to ensure:
 2.  the ssh access is suitably configured
 
 ### Package update
-When working off a fresh OS image it is important to ensure that all packages are updated. On ubuntu
+When working off a fresh OS image it is important to ensure that all packages are updated. On ubuntu. Failing to keep your Ubuntu operating system packages up-to-date risks overall security
+
 run:
 ```
 apt-get dist-update
@@ -38,6 +39,47 @@ eg. tomcat8 and openjdk, and thus ensure that OS upgrades are done automatically
 these packages are applied manually.
 
 In general I find that the risk of not applying unattended 
+
+####Configuring automatic security updates
+Managing update process manually wastes valuable resources and can even lead to overlooking essential security updates. This section explains how to enable automatic security updates in Ubuntu 18.04.
+
+##### Prerequisites
+1. User account with sudo or root privilleges
+
+##### Step 1: Install Unattended upgrades package
+1. Install the unattended-upgrade package by running the command below. The package is installed on latest version of Ubuntu by default
+
+```
+sudo apt install unattended-upgrades
+```
+2. Verify the installation:
+```
+systemctl status unattended-upgrades
+```
+The above command should show active (running) status.
+
+##### Step 2: Step 2: Configure unattended-upgrades file
+After successful installation of the package in Step 1, it is now time to configure individual elements and key parameters for the auto updates
+
+######Accessing the configuration file
+The configuration file for the Unattended updates package is found in the **/etc/apt/apt.conf.d/**. Edit the the configuration using any editor of your choice. We are using nano
+
+```
+sudo nano /etc/apt/apt.conf.d/50unattended-upgrades
+```
+> All lines starting with // is ignored by Unattended updates package. If you want a repository to update automatically, you need to remove the //. 
+
+######Accepting automatic security updates
+For our purposes, we only need to remove // from the “security” line.
+
+Look for a line with security as shown below
+![Unattended Security Updates](SecurityUpdates.png)
+
+######Prevent updates of other packages
+The **Unattended-Upgrade::Package-Blacklist** section in the same configuration file will block upgrades of packages added. To block a sepecific package, add the package name in this section. Remove // from the line if any is available.
+> Example: we block openjdk-8, tomcat8 as shown below. Save the configuration file and exit
+![Block Package upgrades](SecurityUpdates.png)
+
 
 ### Securing ssh
 

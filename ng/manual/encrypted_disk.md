@@ -2,7 +2,7 @@
 
 ## Goal
 In order to achieve encryption at rest we need to create an encrypted
-partionion.  In our linode we have reserved /dev/sdd for this purpose.
+partition.  In our linode we have reserved /dev/sdd for this purpose.
 
 We don't know if in the future our database is going to grow and we need
 to add extra disk space.  For this reason we should use lvm (or zfs) so that
